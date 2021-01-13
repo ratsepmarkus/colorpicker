@@ -1,5 +1,3 @@
-//ADDITIONAL FUNCTIONS
-
 function rgbToHsv(r, g, b) {
     if (arguments.length === 1) {
         g = r.g, b = r.b, r = r.r;
@@ -40,18 +38,15 @@ function rgbToHsl(rgbArr){
  
     var maxColor = Math.max(r1,g1,b1);
     var minColor = Math.min(r1,g1,b1);
-    //Calculate L:
     var L = (maxColor + minColor) / 2 ;
     var S = 0;
     var H = 0;
     if(maxColor != minColor){
-        //Calculate S:
         if(L < 0.5){
             S = (maxColor - minColor) / (maxColor + minColor);
         }else{
             S = (maxColor - minColor) / (2.0 - maxColor - minColor);
         }
-        //Calculate H:
         if(r1 == maxColor){
             H = (g1-b1) / (maxColor - minColor);
         }else if(g1 == maxColor){
@@ -77,7 +72,6 @@ function rgbToHex(red, green, blue) {
 }
 
 
-
 function isPercentage(n) {
     return typeof n === "string" && n.indexOf('%') != -1;
 }
@@ -92,17 +86,14 @@ function bound01(n, max) {
     var processPercent = isPercentage(n);
     n = Math.min(max, Math.max(0, parseFloat(n)));
 
-    // Automatically convert percentage into number
     if (processPercent) {
         n = parseInt(n * max, 10) / 100;
     }
 
-    // Handle floating point rounding errors
     if ((Math.abs(n - max) < 0.000001)) {
         return 1;
     }
 
-    // Convert into [0, 1] range if it isn't already
     return (n % max) / parseFloat(max);
 }
 
@@ -123,7 +114,7 @@ function hslToRgb(h, s, l) {
     }
 
     if(s === 0) {
-        r = g = b = l; // achromatic
+        r = g = b = l;
     }
     else {
         var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
@@ -148,13 +139,11 @@ function rgbToHsl(rgbArr) {
     var S = 0;
     var H = 0;
     if (maxColor != minColor) {
-        //Calculate S:
         if (L < 0.5) {
             S = (maxColor - minColor) / (maxColor + minColor);
         } else {
             S = (maxColor - minColor) / (2.0 - maxColor - minColor);
         }
-        //Calculate H:
         if(r1 == maxColor) {
             H = (g1-b1) / (maxColor - minColor);
         } else if (g1 == maxColor) {
@@ -207,9 +196,7 @@ function segmentNumber(number, min, max) {
     return Math.max(min, Math.min(number, max));
 }
 
-
-// COLOR PICKER //---------------//
-
+//COLOR PICKING
 
 var color = [0, 100, 50];
 
@@ -271,7 +258,6 @@ elements.hue_bar.addEventListener('mousedown', function(e) {
     setHuePickerValue(e);
 });
 
-//---------------------------------//
 
 function setSatPickerValue(e) {
 
@@ -306,7 +292,6 @@ function setSatPickerValue(e) {
         y = 0;
     }
 
-    //convert between hsv and hsl
     var xRatio = x / sat_width * 100,
         yRatio = y / sat_height * 100,
         hsvValue = 1 - (yRatio / 100),
@@ -318,7 +303,7 @@ function setSatPickerValue(e) {
     returnPickedColor();
 }
 
-//COLOR DRAG START
+
 elements.sat_rect.addEventListener('mousedown', function(e) {
     sat_drag_started = true;
 
@@ -327,18 +312,18 @@ elements.sat_rect.addEventListener('mousedown', function(e) {
 });
 
 document.addEventListener('mousemove', function(e) {
-    //COLOR DRAG MOVE
+
     if (sat_drag_started) {
         setSatPickerValue(e);
     }
 
-    //LINE DRAG MOVE
+
     if (hue_drag_started) {
         setHuePickerValue(e);
     }
 });
 
-//MOUSE UP
+
 document.addEventListener('mouseup', function() {
     if (sat_drag_started) {
         elements.sat_picker.classList.remove("active");
@@ -374,8 +359,3 @@ function changeHex(hex_val) {
     
   }
 }
-
-
-
-
-        
